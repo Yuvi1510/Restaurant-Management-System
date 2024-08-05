@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+    <h4 class="py-2">Orders of: {{request.user.first_name}} {{request.user.last_name}}</h4>
+    <div class="container">
+        <h3>Processing Orders</h3>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Item</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            {% for item_list in processing_order_item_lists %}
+            {% for item in item_list  %}
+            <tbody>
+                <tr>
+                  <th scope="row">{{forloop.counter}}</th>
+                  <td>{{item.item.name}}</td>
+                  <td>{{item.quantity}}</td>
+                  <td>Rs.{{item.total}}</td>
+                </tr>
+              </tbody>
+            {% endfor %}
+            {% endfor %}
+            {% comment %} <tr> 
+                <td colspan="3">Total</td>
+                <td>{{}}</td>
+            </tr> {% endcomment %}
+        </table>
+    </div>
+    <a href='' type="button" class="my-3 btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addOrderModal">Order More</a>
+{% comment %} items of  completed order  {% endcomment %}
+<div class="container py-5">
+    <h3>Completed Orders</h3>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Item</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        {% for item_list in completed_order_item_lists %}
+        {% for item in item_list  %}
+        <tbody>
+            <tr>
+              <th scope="row">{{forloop.counter}}</th>
+              <td>{{item.item.name}}</td>
+              <td>{{item.quantity}}</td>
+              <td>Rs.{{item.total}}</td>
+            </tr>
+          </tbody>
+        {% endfor %}
+        {% endfor %}
+    </table>
+</div>
+
+    
+</div>
+
+
+{% endblock content %}
+

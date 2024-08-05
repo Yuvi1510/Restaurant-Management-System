@@ -1,0 +1,145 @@
+{% load static %}
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <meta charset="utf-8" >
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <script src="https://kit.fontawesome.com/10e1999bfc.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        {% block title %}{% endblock title %}
+        {% block style %}{% endblock style %}
+    </head>
+    <body>
+      {% if messages %}
+     
+          {% for message in messages %}
+          <div class="text-center bg-{{message.tags}} alert alert-light alert-dismissible fade show" role="alert" style="width: 100%; z-index: 3; position: absolute; top: 0px;" >
+            <strong>{{message.tags}}! </strong>{{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>          
+          {% endfor %}
+
+      {% endif %}
+        {% comment %} navbar starts here  {% endcomment %}
+        <div class="container-fluid  bg-dark " style="position: sticky; top: 0px; z-index: 2;">
+        {% for info in mainInfo  %}
+        <div class="nav-top container-fluid py-1 m-0  d-flex justify-content-evenly "  >
+          <div class="">
+            <i class="fa-solid fa-location-dot px-1"></i>
+            <span>{{ info.address }}</span>
+          </div>
+          <div class="">
+              <i class="fa-solid fa-phone px-1"></i>
+              <span>+977 {{info.phone}}</span>
+          </div>
+          <div class="">
+              <i class="fa-regular fa-envelope px-1"></i>
+              <span>{{info.email}}</span>
+          </div>
+          <div class="fs-5">
+              <a href="{{info.facebook}}" class="px-2"><i class="fa-brands fa-facebook"></i></a>
+              <a href="{{info.instagram}}" class="px-2"><i class="fa-brands fa-instagram"></i></a>
+          
+          </div>
+      
+        </div>
+        <nav class="navbar navbar-expand-lg   border-body px-3 py-0 navbar-fixed-top"  >
+          
+          <div class="container-fluid">
+            <link rel="shortcut icon" href="{{info.logo.url}}" type="image/x-icon">
+            <a class="navbar-brand pe-5 " href="#">{{info.name}}</a>
+
+            <div class="collapse navbar-collapse mx-auto " id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item px-5" >
+                  <a class="nav-link  fs-lg-3 fs-5" aria-current="page" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item px-5">
+                  <a class="nav-link fs-lg-3 fs-5" href="{% url 'menu' %}">Menu</a>
+                </li>
+                <li class="nav-item px-5">
+                  {% if request.user.is_authenticated %}
+                  <a class="nav-link fs-lg-3 fs-5" href="{% url 'orders' request.user.id %}">Orders</a>
+                  {% else %}
+                  <a class="nav-link fs-lg-3 fs-5" data-bs-toggle="modal" data-bs-target="#loginModal" style="cursor: pointer;">Orders</a>
+                  {% endif %}
+                </li>
+                <li class="nav-item px-5">
+                  <a class="nav-link fs-lg-3 fs-5" href="{% url 'reservation' %}">Reservation</a>
+                </li>
+                <li class="nav-item px-5">
+                  <a class="nav-link fs-lg-3 fs-5" href="{% url 'gallery' %}">Gallery</a>
+                </li>
+              </ul>
+            </div>
+            <div class="me-auto">
+              {% if request.user.is_authenticated %}
+             <button class="btn btn-outlie-light "><span class="text-capitalize" >{{request.user.first_name}}</span></button>
+             <a type="button" href="{% url 'logout_view' %}" class="btn btn-light" >logout</a>
+              {% else %}
+              
+              <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+              {% endif %}
+            </div>
+            <button class="navbar-toggler border border-3 border-light " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon "></span>
+            </button>
+          </div>
+        </nav>
+      </div>
+{% comment %} navbar ends here  {% endcomment %}
+<div class="container-fluid p-0 m-0">
+  {% block content %}{% endblock content %}
+
+</div>
+
+{% comment %} Login modal starts {% endcomment %}
+{% include 'includes/login.html' %}
+{% include 'includes/add_order.html' %}
+{% comment %} login modal ends  {% endcomment %}
+
+{% comment %} my info modal  {% endcomment %}
+{% include 'includes/my_info.html' %}
+
+{% comment %} footer starts here  {% endcomment %}
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+ 
+  <div class="container-fluid text-center text-md-left">
+
+    <div class="row text-center">
+        <div class="col-6">
+            <h2>Contact Us</h2>
+            <p><i class="fa-solid fa-location-dot px-2"></i>{{info.address}}</p>
+            <p><i class="fa-solid fa-phone px-2"></i>{{info.phone}}</p>
+        </div>
+        <div class="col-6">
+          <h2>Follow Us</h2>
+          <p>Join us on social networks</p>
+          <div class="fs-4">
+            <a href="{{info.facebook}}"  class="px-2"><i class="fa-brands fa-facebook"></i></a>
+                <a href="{{info.instagram}}" class="px-2"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+
+    </div>
+    
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3 pb-5">© 2020 Copyright:
+    <a href="https://mdbootstrap.com/"> ChiyaChu.com </a><span class="footer-copyright text-center py-3">.All rights reserved.</span>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+{% endfor %}
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    
+      </body>
+</html>

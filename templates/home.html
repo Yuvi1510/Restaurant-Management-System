@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<style>
+  
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container-fluid">
+   
+{% comment %} carousel starts  {% endcomment %}
+<div class="container-fluid pt-2" style="width:1005; height: 80vh; overflow: hidden; padding: 0px; margin: 0px; ">
+    <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade p-0 m-0 " data-bs-ride="carousel">
+       <div class="carousel-inner p-0 m-0">
+           {% for carousel_image in carousel_images  %}
+           <div class="carousel-item {% if forloop.first %}active{% endif %} p-0 m-0" >
+               <div class="p-0 m-0" >
+                   <img src="{{ carousel_image.image.url }}" class="d-block " alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; " >
+               </div>
+           </div>
+           {% endfor %}
+       </div>
+     </div>
+   </div>
+   {% comment %} carousel ends  {% endcomment %}
+   
+
+
+
+{% comment %} daily offer starts  {% endcomment %}
+<div class="container py-5">
+    <h3 class=" text-center mb-3">Daily Offers</h3>
+    <div class="row g-lg-5 g-md-3 g-sm-1 ">
+        {% for offer in daily_offers %}
+        <div class="col-lg-4 col-md-6 col-sm-12 ">
+            <div class="shadow-white d-flex align-items-center p-2" style="height: 15rem;">
+                <div class="shadow-white" style="border: 2px solid red; width: 6rem; height: 6rem; border-radius: 50%; overflow: hidden;">
+                    <img src="{{offer.item.image.url}}" alt="" style="width: 6rem; height: 6rem; object-fit: cover;">
+                </div>
+                <div class=" px-2">
+                    <h5 class="text-capitalize"><em>{{offer.item.name}}</em></h5>
+                    <p class="text-capitalize">{{offer.item.description}}</p>
+                    <p class="text-capitalize">{{offer.discount}} % <i>discounted</i></p>
+                    <p class="text-capitalize">Rs.{{offer.price}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% comment %} daily offer ends  {% endcomment %}
+
+{% comment %} services part start here  {% endcomment %}
+<div class="container">
+    <div></div>
+    <h3 class=" text-center mb-3">Our services</h3>
+    <div class="row g-3">
+        <div class="gap-3 col-lg-4 col-md-6 col-sm-12 border-end border-1 border-light">
+            <h4>Hygenic Food</h4>
+            <p>We serve healthy and hygenic breakfast, lunch and beverages</p>
+        </div>
+        <div class="gap-3 col-lg-4 col-md-6 col-sm-12 border-end border-1 border-light">
+            <h4>Reservations</h4>
+            <p>You can contact us to reserve your tables in advance</p>
+        </div>
+        <div class="gap-3 col-lg-4 col-md-6 col-sm-12 border-end border-1 border-light">
+            <h4>Online Orders</h4>
+            <p>We accept online orders with your desired payment method</p>
+        </div>
+    </div>
+   
+</div>
+{% comment %} services part ends here  {% endcomment %}
+
+{% comment %} menu starts  {% endcomment %}
+<div class="container py-5">
+    <h3 class="text-white text-center mb-3">From Our Menu</h3>
+    <div class="row g-lg-5 g-md-3 g-sm-1 ">
+        {% for item in items_list %}
+        <div class="col-lg-6 col-md-6 col-sm-12  ">
+            <div class="shadow-white d-flex">
+
+                <div  style=" border-radius: 5px; overflow: hidden;">
+                    <img src="{{item.image.url}}" alt="" style="width: 10rem; height: 10rem; object-fit: cover;">
+                </div>
+                <div class="py-1 px-2">
+                    <h5 class="text-capitalize"><em>{{item.name}}</em></h5>
+                    <p class="text-capitalize">{{item.description}}</p>
+                    <p class="text-capitalize">Rs.{{item.price}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% comment %} menu ends  {% endcomment %}
+</div>
+
+{% comment %} restaurant location map  {% endcomment %}
+{% include 'includes/map.html' %}
+
+{% endblock content %}
