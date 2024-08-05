@@ -10,11 +10,13 @@ class MenuAdmin(admin.ModelAdmin):
 
 class OrderListInline(admin.StackedInline):
     model = OrderList
-    extra =1
+    extra =0
     
 
 class OrderAdmin(admin.ModelAdmin):
     inlines=[OrderListInline]
+    list_display = ['order_from', 'completed']
+    ordering = ['completed','id']
 
 
 # Register your models here.

@@ -5,6 +5,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          {% if request.user.is_authenticated %}
             <form action="{% url 'orders' request.user.id %}" method="POST" >
               {% csrf_token %}
               <div class="mb-3">
@@ -20,6 +21,7 @@
               </div>
               <button type="submit" class="btn btn-primary">Add</button>
             </form>
+            {% endif %}
 
         </div>
         

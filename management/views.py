@@ -86,39 +86,72 @@ def gallery(request):
 
 
 def orders(request,id):
-    if request.method=='POST':
-        item = request.POST.get("item")
-        print(item)
-        # item_id = request.POST.get("item_id")
-        # print(item_id)
-        print(f"item is :{Items.objects.filter(name=item)}")
-        
-
     user_id = get_object_or_404(User,id=id)
     user_profile = UserProfile.objects.filter(profile=user_id).first()
-    # getting the id of logined user
-    # getting the profile of logined user
+    orders = Order.objects.filter(order_from= user_profile, completed=False)
+    # print(f'orders: {orders}')
+    if request.method=='POST':
+        item = request.POST.get("item")
+        item=Items.objects.filter(name=item).first()
+        if item is None:
+            messages.error(request,"Please select an item!")
+            return redirect('orders', id=id)
+        # print(item)
+        if not orders.exists():
+            print("None")
+            orders= Order.objects.create(order_from=user_profile,completed=False)
+            orders.save()
+            quantity=1
+            order_list=OrderList.objects.create(order_list_of=orders,item=item,quantity=quantity,total=item.price)
+            order_list.save()
+        else:
+           print("not none")
+           order_list= OrderList.objects.filter(order_list_of=orders.first())
+           item_found_in_list = True
+           for order in order_list:
+               print(f'matching {order.item} and {item}')
+               if str(order.item).upper() == str(item).upper():
+                    order.quantity+=1
+                    order.total+= item.price
+                    order.save()
+                    print("order updated")
+                    item_found_in_list = True
+                    break
+               else:
+                   item_found_in_list = False
+            
+           if item_found_in_list==False:
+               order_list=OrderList.objects.create(order_list_of=orders.first(),item=item,quantity=1,total=item.price)
+               order_list.save()
+               print("item added to order")
+                   
+           
+
+        
     context ={}
     processing_order_item_lists=[]
     completed_order_item_lists=[]
 
     # user profile object
 
-    orders = Order.objects.filter(order_from= user_profile)
     context.update({'orders':orders})
-    for order in orders:
-        item_list = OrderList.objects.filter(order_list_of = order)
-        if order.completed:
-            # print("completed")
-            completed_order_item_lists.append(item_list)
-        else:
-            processing_order_item_lists.append(item_list)
+    try:
+        for order in orders:
+            item_list = OrderList.objects.filter(order_list_of = order)
+            if order.completed:
+                # print("completed")
+                completed_order_item_lists.append(item_list)
+            else:
+                processing_order_item_lists.append(item_list)
             # print("not completed")
-    context.update({"processing_order_item_lists":processing_order_item_lists,
+        context.update({"processing_order_item_lists":processing_order_item_lists,
                     "completed_order_item_lists":completed_order_item_lists})
    
-    # print(orders)
-    return render(request,'orders.html',context)
+        # print(orders)
+        return render(request,'orders.html',context)
+    except Exception as e:
+        print(e)
+        return render(request,'orders.html',context)
 
 def reservation(request):
     return render(request,"reservation.html")

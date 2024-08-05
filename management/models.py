@@ -68,8 +68,7 @@ class DailyOffer(models.Model):
         def __str__(self):
              return self.item.name
         
-        class Meta:
-          verbose_name_plural = 'Daily Offers'
+        verbose_name_plural = 'Daily Offers'
 
 class UserProfile(models.Model):
      profile = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -87,9 +86,11 @@ class Order(models.Model):
      order_from = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
      total = models.FloatField(default=0)
      completed = models.BooleanField(default=False)
-
+     paid = models.BooleanField(default=False)
      def __str__(self):
           return self.order_from.first_name
+     class Meta:
+          ordering = ['completed','id'] # Orders by 'completed' first, then by 'id'
 
 class OrderList(models.Model):
      order_list_of = models.ForeignKey(Order,on_delete=models.CASCADE)
