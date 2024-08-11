@@ -1,77 +1,71 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container py-5 ">
-  
-<form class="row g-3 needs-validation" method="POST" action="{% url 'signup' %}">
-  {% csrf_token %}
-  <div class="col-md-6">
-    <label for="validationCustom01" class="form-label">First name</label>
-    <input type="text" class="form-control" id="validationCustom01" value="" name='first_name' required>
-    <div class="valid-feedback">
-      Looks good!
-    </div>
-  </div>
-  <div class="col-md-6">
-    <label for="validationCustom02" class="form-label">Last name</label>
-    <input type="text" class="form-control" id="validationCustom02" value="" name="last_name" required>
-    <div class="valid-feedback">
-      Looks good!
-    </div>
-  </div>
-  <div class="col-md-4">
-    <label for="validationCustomUsername" class="form-label">Username</label>
-    <div class="input-group">
-      <span class="input-group-text" id="inputGroupPrepend">@</span>
-      <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" name='username' required>
-      <div class="invalid-feedback">
-        Please choose a username.
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <label for="validationCustom02" class="form-label">Email</label>
-    <input type="email" class="form-control" id="validationCustom03" value="" name="email" required>
-    <div class="valid-feedback">
-      Looks good!
-    </div>
-  </div>
-  <div class="col-md-6">
-    <label for="validationCustom02" class="form-label">Phone Number</label>
-    <input type="tel" class="form-control" id="validationCustom04" value="" name="phone_number" required>
-    <div class="valid-feedback">
-      Looks good!
-    </div>
-  </div>
-  <div class="col-md-6">
-    <label for="validationCustom02" class="form-label">Password</label>
-    <input type="password" class="form-control" id="validationCustom05" value="" name="password1" required>
-    <div class="valid-feedback">
-      Looks good!
-    </div>
-  </div>
-  <div class="col-md-6">
-    <label for="validationCustom02" class="form-label">Confirm password</label>
-    <input type="password" class="form-control" id="validationCustom06" value="" name="password2" required>
-    <div class="valid-feedback">
-      Looks good!
-    </div>
-  </div>
-  <div class="col-12">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-      <label class="form-check-label" for="invalidCheck">
-        Agree to terms and conditions
-      </label>
-      <div class="invalid-feedback">
-        You must agree before submitting.
-      </div>
-    </div>
-  </div>
-  <div class="col-12">
-    <button class="btn btn-primary" type="submit">Register</button>
-  </div>
-</form>
-</div>
 
+<div class="container mt-5 pt-5 mb-5">
+  <div class="row justify-content-center">
+     <div class="col-md-6 col-lg-4 col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center m-auto">
+                   <h4 class="text-uppercase text-center">CREATE ACCOUNT</h4>
+                </div>
+                <form action="{% url 'signup' %}" method="post">
+                  {% csrf_token %}
+                   <input type="hidden" name="csrftoken" value="ea49375f43c7e6a59c77df1e4de562b3f1350124eeb70e5d5124e4ce3b5251c2b4d12e9aaf2a3ddc618c178c8dc4620b">
+                   <div class="form-group mb-3">
+                      <label for="fname">FIRST NAME </label>
+                      <input type="text" name="first_name" placeholder="First Name" class="form-control" required="">
+                   </div>
+                   <div class="form-group mb-3">
+                      <label for="fname">LAST NAME </label>
+                      <input type="text" name="last_name" placeholder="Last Name" class="form-control" required="">
+                   </div>
+                   <div class="form-group mb-3">
+                      <label for="emailaddress">EMAIL </label>
+                      <input type="email" name="email" placeholder="Enter Email" class="form-control" required="">
+                   </div>
+                   <div class="form-group mb-3">
+                      <label for="password">PASSWORD</label>
+                      <div class="input-group bg-light" id="show_hide_password">
+                         <input type="password" class="form-control" id="password" value="" name="password1" placeholder="Enter Password" required="">
+                         <div class="input-group-addon">
+                          <i class="fa-solid fa-eye-slash"></i>
+                        </div>
+                      </div>
+                   </div>
+                   <div class="form-group mb-3">
+                      <label for="password">CONFIRM PASSWORD</label>
+                      <div class="input-group bg-light" id="show_hide_password">
+                         <input type="password" class="form-control" id="confirm-password" value="" name="password2" placeholder="Enter Password" required="">
+                      </div>
+                   </div>
+                   
+                   <div class="form-group mb-0 d-flex justify-content-between">
+                      <button class="btn btn-dark btn-block" type="submit" name="submit" id="submit">Sign Up </button>
+                      <p class="muted pt-2">Back to <a href="" class="theme-secondary-text">Log In  →</a></p>
+                   </div>
+                   <script>
+                      $(document).ready(function() {
+                          $("#show_hide_password i").on('click', function(event) {
+                              event.preventDefault();
+                              if($('#show_hide_password input').attr("type") == "text"){
+                                  $('#show_hide_password input').attr('type', 'password');
+                                  $('#show_hide_password i').addClass( "fa-eye-slash" );
+                                  $('#show_hide_password i').removeClass( "fa-eye" );
+                              }else if($('#show_hide_password input').attr("type") == "password"){
+                                  $('#show_hide_password input').attr('type', 'text');
+                                  $('#show_hide_password i').removeClass( "fa-eye-slash" );
+                                  $('#show_hide_password i').addClass( "fa-eye" );
+                              }
+                          });
+       
+                      });
+                   </script>
+                </form>
+             </div>
+        </div>
+     </div>
+  </div>
+</div>
 {% endblock content %}

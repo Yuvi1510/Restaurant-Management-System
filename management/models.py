@@ -22,10 +22,8 @@ class MainInfo(models.Model):
 
 class CarouselImages(models.Model):
     image = models.ImageField(upload_to='images/')
-    title = models.CharField(max_length=50, blank=True, null=True)
-    sub_title = models.CharField(max_length=50 , blank=True, null=True)
     def __str__(self):
-        return f'image'
+        return "image"
     class Meta:
           verbose_name_plural = 'Carousel Images'
 
@@ -109,3 +107,4 @@ class OrderList(models.Model):
           self.total = self.total_price
           super(OrderList,self).save(*args,**kwargs)
 
+     

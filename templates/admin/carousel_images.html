@@ -1,0 +1,107 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+
+<h2 class="p-3">Carousel Images</h2>
+<table class="table p-1">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Images</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for image in cImages  %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td class="overflow-hidden "  >
+        <img src="{{image.image.url}}" alt="" style="width: 5rem; height: 5rem; object-fit: cover;">
+        </td>
+      <td  >
+        <div class="d-flex align-items-center" style="width: 5rem; height: 5rem;">
+            <a data-id={{image.id}} data-bs-toggle="modal" data-bs-target="#deleteCarouselImage"  type="btn" class="btn btn-danger mx-2">Delete</a>
+        </div>
+      </td>
+      
+    </tr>
+    {% endfor %}
+</tbody>
+<tfoot>
+    <td colspan="3" class="text-center">
+        <a data-bs-toggle="modal" data-bs-target="#addCarouselImage"  type="btn" class="btn btn-success">Add Images</a>
+    </td>
+</tfoot>
+</table>
+
+{% comment %} confirm delete modal {% endcomment %}
+
+<div class="modal fade" id="deleteCarouselImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+              <div class="card-body">
+                  <form action="{% url 'carousel_images' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input hidden type="text" name="image_id">
+                     <div class="form-group mb-0 d-flex justify-content-between">
+                        <button class="btn btn-danger btn-block" type="submit" name="submit" id="submit">Delete </button>
+                     </div>
+                  </form>
+               </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+{% comment %} add carousel image modal  {% endcomment %}
+<div class="modal fade" id="addCarouselImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit restaurant details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+              <div class="card-body">
+                  <form action="{% url 'carousel_images' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                     <input type="hidden" name="csrftoken" value="ea49375f43c7e6a59c77df1e4de562b3f1350124eeb70e5d5124e4ce3b5251c2b4d12e9aaf2a3ddc618c178c8dc4620b">
+                     <div class="form-group mb-3">
+                        <label for="password">Select Image</label>
+                        <div class="input-group bg-light" >
+                           <input type="file" class="form-control" value="" name="carousel_image" placeholder="Enter New Name" required="">
+                        </div>
+                     </div>
+                     <div class="form-group mb-0 d-flex justify-content-between">
+                        <button class="btn btn-dark btn-block" type="submit" name="submit" id="submit">SAVE CHANGES </button>
+                     </div>
+                  </form>
+               </div>
+          </div>
+      </div>
+    </div>
+</div>
+
+{% block script %}
+<script>
+    modal = document.getElementById("deleteCarouselImage")
+    modal.addEventListener('show.bs.modal', (ev)=>{
+        console.log("I am here")
+        btn = ev.relatedTarget
+        image_id = btn.getAttribute('data-id')
+        console.log(image_id)
+        image_id_input = modal.querySelector('input[name="image_id"]')
+        console.log(image_id_input)
+        image_id_input.value=image_id
+    })
+</script>
+{% endblock script %}
+
+  {% endblock content %}

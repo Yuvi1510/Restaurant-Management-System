@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container mt-5 pt-5 mb-5">
+    <div class="row justify-content-center">
+       <div class="col-md-6 col-lg-4 col-xl-4">
+          <div class="card">
+              <div class="card-body">
+                  <div class="text-center m-auto">
+                     <h4 class="text-uppercase text-center">MY PROFILE</h4>
+                  </div>                     
+                  <div class="mb-3">
+                     <h6 class="text-uppercase ">Name: {{request.user.first_name}} {{request.user.last_name}}</h6>
+                  </div>                     
+                  <div class="mb-3">
+                     <h6 class="text-uppercase ">Email: {{request.user.email}}</h6>
+                  </div>                     
+                  <div class="mb-3">
+                    {% for user in user_profile  %}
+                     <h6 class="text-uppercase ">Phone Number: {{user.phone_number}}</h6>
+                     {% endfor %}
+                  </div>  
+                  <div>
+                    <a type="" class=" btn btn-light mb-3"  href="{% url 'change_password' %}" >Change Password</a>
+                  </div>
+                  <div>
+                    <a type="button" href="{% url 'logout_view' %}" class="btn btn-light mb-3" >logout</a>
+                  </div>                   
+               </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+
+{% endblock content %}

@@ -1,0 +1,97 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="">
+    {% for info in infos  %}
+    <div class="card" style="width:28rem;">
+      <div class="card-body">
+        <h5 class="card-title">Restaurant Infos</h5>
+        <p class="card-text">Name: {{info.name}}</p>
+        <p class="card-text">Address: {{info.address}}</p>
+        <p class="card-text">Phone: {{info.phone}}</p>
+        <p class="card-text">Email: {{info.email}}</p>
+      </div>
+      <button class="btn btn-light"  data-bs-toggle="modal" data-bs-target="#restaurantModal" >Edit details</button>
+    </div>
+
+
+    <div class="modal fade" id="restaurantModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit restaurant details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'restaurant'  %}" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                       <input type="hidden" name="csrftoken" value="ea49375f43c7e6a59c77df1e4de562b3f1350124eeb70e5d5124e4ce3b5251c2b4d12e9aaf2a3ddc618c178c8dc4620b">
+                       <input type="hidden" value="{{info.id}}" name="restaurant_id" >
+                       <div class="form-group mb-3">
+                          <label for="password">Name</label>
+                          <div class="input-group bg-light" >
+                             <input type="text" class="form-control" value="{{info.name}}" name="name" placeholder="Enter New Name" required="">
+                          </div>
+                       </div>
+                       <div class="form-group mb-3">
+                          <label for="password">Address</label>
+                          <div class="input-group bg-light" >
+                             <input type="text" class="form-control" value="{{info.address}}" name="address" placeholder="Enter Address" required="">
+                          </div>
+                       </div>
+                       <div class="form-group mb-3">
+                          <label for="password">Phone Number</label>
+                          <div class="input-group bg-light" >
+                             <input type="tel" class="form-control"  value="{{info.phone}}" name="phone" placeholder="Enter Phone Number" required="">
+                          </div>
+                       </div>
+                       <div class="form-group mb-3">
+                        <label for="password">Email</label>
+                        <div class="input-group bg-light" >
+                           <input type="email" class="form-control"  value="{{info.email}}" name="email" placeholder="Enter Email" required="">
+                        </div>
+                     </div>
+                       <div class="form-group mb-3">
+                          <label for="password">Facebook Page URL</label>
+                          <div class="input-group bg-light" >
+                             <input type="url" class="form-control"  value="{{info.facebook}}" name="facebook" placeholder="Enter URL" required="">
+                          </div>
+                       </div>
+                       <div class="form-group mb-3">
+                          <label for="password">Instagram URL</label>
+                          <div class="input-group bg-light" >
+                             <input type="url" class="form-control" value="{{info.instagram}}" name="instagram" placeholder="Enter URL" required="">
+                          </div>
+                       </div>
+                 
+                       <div class="form-group mb-3">
+                          <label for="password">Logo</label>
+                          <div class="input-group bg-light" >
+                           <img src="{{info.logo.url}}" style="height: 20px; width: 20px;" alt="">
+                           <input type="file" class="form-control"  value="" name="logo" placeholder="Select Image For Logo" >
+                          </div>
+                       </div>
+                       
+                       <div class="form-group mb-0 d-flex justify-content-between">
+                          <button class="btn btn-dark btn-block" type="submit" name="submit" id="submit">SAVE CHANGES </button>
+                       </div>
+                    </form>
+                 </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+
+{% block script %}
+<script>
+   
+</script>
+{% endblock script %}
+
+{% endblock content %}

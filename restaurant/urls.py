@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('dj-admin/', admin.site.urls),
+    path('admin/',include(('costum_admin.urls','admin'),namespace='admin')),
     path('', include('management.urls')),  # Include URLs from the 'management' app
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

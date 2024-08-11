@@ -1,0 +1,66 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<div class="container">
+    <h3 class="text-center">Admins</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">SN</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Username</th>
+          <th scope="col">Active Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users  %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.username}}</td>
+            {% if user.is_active %}
+            <td>Online</td>
+            {% else %}
+            <td>Offline</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+<div class="container">
+    <h3 class="text-center">Regular Users</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">SN</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Username</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Active Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for profile in profiles  %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{profile.first_name}}</td>
+          <td>{{profile.last_name}}</td>
+          <td>{{profile.username}}</td>
+          <td>{{profile.email}}</td>
+          <td>{{profile.phone}}</td>
+          {% if profile.profile.is_active %}
+            <td>Online</td>
+            {% else %}
+            <td>Offline</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+
+{% endblock content %}

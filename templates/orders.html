@@ -5,60 +5,78 @@
     <h4 class="py-2">Orders of: {{request.user.first_name}} {{request.user.last_name}}</h4>
     <div class="container">
         <h3>Processing Orders</h3>
+        {% if processing_order_item_lists %}
         <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Item</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            {% for item_list in processing_order_item_lists %}
-            {% for item in item_list  %}
-            <tbody>
-                <tr>
-                  <th scope="row">{{forloop.counter}}</th>
-                  <td>{{item.item.name}}</td>
-                  <td>{{item.quantity}}</td>
-                  <td>Rs.{{item.total}}</td>
-                </tr>
-              </tbody>
-            {% endfor %}
-            {% endfor %}
-            {% comment %} <tr> 
-                <td colspan="3">Total</td>
-                <td>{{}}</td>
-            </tr> {% endcomment %}
-        </table>
-    </div>
-    <a href='' type="button" class="my-3 btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addOrderModal">Order More</a>
-{% comment %} items of  completed order  {% endcomment %}
-<div class="container py-5">
-    <h3>Completed Orders</h3>
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Item</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        {% for item_list in completed_order_item_lists %}
-        {% for item in item_list  %}
-        <tbody>
+          <thead>
             <tr>
-              <th scope="row">{{forloop.counter}}</th>
-              <td>{{item.item.name}}</td>
-              <td>{{item.quantity}}</td>
-              <td>Rs.{{item.total}}</td>
+              <th scope="col">#</th>
+              <th scope="col">Item</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
             </tr>
-          </tbody>
-        {% endfor %}
-        {% endfor %}
-    </table>
-</div>
+          </thead>
+          {% for item_list in processing_order_item_lists %}
+          {% for item in item_list  %}
+          <tbody>
+              <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{item.item.name}}</td>
+                <td>{{item.quantity}}</td>
+                <td >Rs. <span class="processing_order_item_total">{{item.total}}</span></td>
+              </tr>
+            </tbody>
+          {% endfor %}
+          {% endfor %}
+          <tr> 
+              <td colspan="3">Total</td>
+              <td>Rs.<span id='processing_order_total'></span></td>
+          </tr> 
+      </table>
+      <button class="my-3 btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addOrderModal">Order More</button>
+        {% else %}
+          <h5>No orders in process</h5>
+          <button class="my-3 btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addOrderModal">Order Now</button>
+
+        {% endif %}
+        
+    </div>
+{% comment %} items of  completed order  {% endcomment %}
+
+{% if completed_order_item_lists %}
+<div class="container py-5">
+  <h3>Completed Orders</h3>
+  <div style="height: 10rem; overflow: auto;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Item</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody >
+          {% for item_list in completed_order_item_lists %}
+          {% for item in item_list  %}
+              <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{item.item.name}}</td>
+                <td>{{item.quantity}}</td>
+                <td >Rs.<span class="completed_order_item_total">{{item.total}}</span></td>
+              </tr>
+              {% endfor %}
+              {% endfor %}
+            </tbody>
+          <tr> 
+            <td colspan="3">Total</td>
+            <td>Rs.<span id='completed_order_total'></span></td>
+        </tr> 
+      </table>
+  </div>
+  </div>
+ 
+{% endif %}
+
 
     
 </div>
@@ -66,3 +84,27 @@
 
 {% endblock content %}
 
+{% block script %}
+<script>
+  {% comment %} finding total of processing order  {% endcomment %}
+  processing_items = document.getElementsByClassName("processing_order_item_total");
+  processing_items_total = document.getElementById("processing_order_total")
+  var processing_total=0;
+  for (price of processing_items){
+    processing_total+= parseFloat(price.innerHTML)
+  }
+  processing_items_total.innerHTML=processing_total
+  console.log(processing_total)
+
+  {% comment %} finding total of completed order  {% endcomment %}
+  completed_items = document.getElementsByClassName("completed_order_item_total")
+  completed_items_total = document.getElementById("completed_order_total")
+  var completed_total = 0
+  for (price of completed_items){
+    completed_total+= parseFloat(price.innerHTML)
+  }
+  completed_items_total.innerHTML=completed_total
+
+
+</script>
+{% endblock script %}

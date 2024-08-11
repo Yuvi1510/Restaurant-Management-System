@@ -1,0 +1,29 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+       <div class="d-flex p-0">
+          <aside class="bd-sidebar bg-dark text-white" style="height: 95vh; width: 238px;">             <nav class="collapse bd-links d-block" id="bd-docs-nav" aria-label="Docs navigation">
+                <ul class="list-unstyled mb-0 py-3 pt-md-1">
+                   <li class="mb-1">
+                      <div class="side-menu d-inline-flex align-items-center rounded">
+                         <i class="fa fa-solid fa-gauge-simple"></i> Dashboard
+                      </div>
+                   </li>   
+                </ul>
+             </nav>
+          </aside>
+          <div class="">
+             {% block content %}
+             {% endblock content %}
+             <!--page content area end-->
+          </div>
+          {% comment %} includes {% endcomment %}
+          {% include 'admin/includes/restaurant_modals.html' %}
+
+       </div>
+    </div>
+ </div>
+
+{% endblock content %}
